@@ -21,10 +21,10 @@ type StatsResponse struct {
 }
 
 type StatsHandler struct {
-	Store storage.Store
+	Store *storage.InMemoryStore
 }
 
-func NewStatsHandler(store storage.Store) *StatsHandler {
+func NewStatsHandler(store *storage.InMemoryStore) *StatsHandler {
 	return &StatsHandler{Store: store}
 }
 

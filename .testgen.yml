@@ -5,3 +5,10 @@ race_detection: false
 
 exclude:
   - "main.go"
+
+custom_prompt: |
+  Project-specific test conventions:
+  - For HTTP handler tests, use httptest.NewRequest and httptest.NewRecorder; encode/decode JSON with encoding/json directly.
+  - Use storage.NewInMemoryStore() to construct the store for handler tests.
+  - Use table-driven tests for functions with multiple branches.
+  - Do not introduce new external dependencies.

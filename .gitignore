@@ -2,6 +2,7 @@ testgen-agent
 testgen-agent.exe
 testgen-report-*.json
 testgen-report-*.html
+testgen-*-run.log
 .testgen-cache.json
 .env
 *.test
