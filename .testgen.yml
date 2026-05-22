@@ -1,0 +1,7 @@
+coverage_threshold: 70
+mutation: true
+max_retries: 3
+race_detection: false
+
+exclude:
+  - "main.go"
