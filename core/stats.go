@@ -48,3 +48,22 @@ func Round(value float64, digits int) float64 {
 	shift := math.Pow(10, float64(digits))
 	return math.Round(value*shift) / shift
 }
+
+func Variance(values []float64) (float64, error) {
+	if len(values) == 0 {
+		return 0, ErrEmpty
+	}
+	if len(values) == 1 {
+		return 0, nil
+	}
+	mean, err := Mean(values)
+	if err != nil {
+		return 0, err
+	}
+	var sumSq float64
+	for _, v := range values {
+		diff := v - mean
+		sumSq += diff * diff
+	}
+	return sumSq / float64(len(values)-1), nil
+}
