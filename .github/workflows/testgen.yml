@@ -57,17 +57,19 @@ jobs:
             --model ${{ vars.LLM_MODEL }} \
             --temperature 0 \
             --seed 42 \
-            --report json \
+            --report html,json \
             --github-token ${{ secrets.GITHUB_TOKEN }} \
             --github-repo ${{ github.repository }} \
             --pr-number ${{ github.event.pull_request.number }}
 
-      - name: Upload JSON report
+      - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: testgen-json-report
-          path: testgen-report-*.json
+          name: testgen-reports
+          path: |
+            testgen-report-*.json
+            testgen-report-*.html
           if-no-files-found: ignore
 
       - name: Run go test on generated tests
