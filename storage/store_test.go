@@ -64,3 +64,11 @@ func TestInMemoryStore_Append_MultipleValues(t *testing.T) {
 		}
 	}
 }
+
+func TestInMemoryStore_Append_EmptyName_Error(t *testing.T) {
+	store := &InMemoryStore{data: make(map[string][]float64)}
+	err := store.Append("", 1.0)
+	if err == nil || err.Error() != "storage: empty name" {
+		t.Errorf("expected error 'storage: empty name', got: %v", err)
+	}
+}
