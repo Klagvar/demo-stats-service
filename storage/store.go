@@ -10,6 +10,7 @@ var ErrNotFound = errors.New("storage: series not found")
 type Store interface {
 	Save(name string, values []float64) error
 	Load(name string) ([]float64, error)
+	Append(name string, value float64) error
 }
 
 type InMemoryStore struct {
@@ -43,4 +44,14 @@ func (s *InMemoryStore) Load(name string) ([]float64, error) {
 	copied := make([]float64, len(values))
 	copy(copied, values)
 	return copied, nil
+}
+
+func (s *InMemoryStore) Append(name string, value float64) error {
+	if name == "" {
+		return errors.New("storage: empty name")
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.data[name] = append(s.data[name], value)
+	return nil
 }
