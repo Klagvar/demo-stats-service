@@ -7,8 +7,18 @@ exclude:
   - "main.go"
 
 custom_prompt: |
-  Project-specific test conventions:
-  - For HTTP handler tests, use httptest.NewRequest and httptest.NewRecorder; encode/decode JSON with encoding/json directly.
+  Hard rules (MUST follow, no exceptions):
+  - Every generated test function MUST actually call the function under test at least once.
+  - Every generated test function MUST contain at least one assertion (t.Error, t.Errorf, t.Fatal, t.Fatalf, or a comparison that triggers one of these).
+  - DO NOT generate test stubs, placeholders, or tests whose body consists only of comments.
+  - DO NOT write tests that say "would do X if we had Y" or "cannot test this because". If a branch is unreachable through the public API, simply skip that test — do not emit a function for it at all.
+  - DO NOT mock functions from packages you control. Use the real implementation directly (e.g. call storage.NewInMemoryStore() instead of inventing a MockStore).
+  - DO NOT introduce new external dependencies (no testify, no gomock, no mockery).
+
+  Project conventions:
+  - For HTTP handler tests use httptest.NewRequest and httptest.NewRecorder; encode/decode JSON via encoding/json directly.
   - Use storage.NewInMemoryStore() to construct the store for handler tests.
-  - Use table-driven tests for functions with multiple branches.
-  - Do not introduce new external dependencies.
+  - Use table-driven tests when a function has multiple branches; one t.Run per case with a descriptive name.
+
+  Test naming:
+  - TestFunctionName_Scenario, where Scenario describes the input or branch (e.g. TestVariance_EmptySlice, TestVariance_SingleElement, TestVariance_TwoElements, TestVariance_NegativeValues).
